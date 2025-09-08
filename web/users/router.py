@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from fastapi import APIRouter
 from web.users.schemas import User
 
@@ -19,7 +19,7 @@ def get_user_info(id: int) -> User:
         patronymic=None,
         login=f"ivanov_{id}",
         dateOfReg=datetime(2024,9,8,14,55),
-        dateOfBirth=datetime(1980,12,31),
+        dateOfBirth=date(1980,12,31),
         email="Admin@ya.ru",
         phone="+79125555555"
         )

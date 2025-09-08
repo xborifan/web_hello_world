@@ -1,24 +1,24 @@
-from pydantic import BaseModel, EmailStr, field_validator as fv
+from pydantic import BaseModel, Field, EmailStr, field_validator as fv
 from pydantic_extra_types.phone_numbers import PhoneNumber
-from typing import Optional
+from typing import Optional, Annotated
 from datetime import datetime, date
 
 
 class RussianPhoneNumber(PhoneNumber):
-    supported_regions=["RU"]
-    default_region_code="+7"
+    supported_regions = ["RU"]
+    default_region_code = "+7"
     
     
 class User(BaseModel):
     #id: int
-    name: str
-    surname: str
-    patronymic: Optional[str]
-    login: str
-    dateOfReg: Optional[datetime]
-    dateOfBirth: date
-    email: Optional[EmailStr]
-    phone: Optional[RussianPhoneNumber]
+    name:        Annotated[str,                          Field(description="Имя")]
+    surname:     Annotated[str,                          Field(description="Фамилия")]
+    login:       Annotated[str,                          Field(description="Логин")]
+    dateOfBirth: Annotated[date,                         Field(description="Дата рождения")]
+    patronymic:  Annotated[Optional[str],                Field(description="Отчество")]
+    dateOfReg:   Annotated[Optional[datetime],           Field(description="Момент регистрации пользователя")]
+    email:       Annotated[Optional[EmailStr],           Field(description="Адрес электронной почты")]
+    phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
     
     @fv("dateOfBirth")
     def validate_age(cls, value: date):
