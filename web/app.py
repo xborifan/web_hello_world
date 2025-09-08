@@ -1,14 +1,11 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
+from web.users.router import router as users_router
 
 
 app = FastAPI()
+app.include_router(users_router)
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/users/{id}")
-def get_user_info(id: int) -> dict:
-    #return "hi"
-    return {"user_id": id, "user_name": "boris"}
+    return RedirectResponse("/docs")
