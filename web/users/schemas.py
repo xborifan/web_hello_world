@@ -19,7 +19,7 @@ class User(BaseModel):
     dateOfReg:   Annotated[Optional[datetime],           Field(description="Момент регистрации пользователя")]
     email:       Annotated[Optional[EmailStr],           Field(description="Адрес электронной почты")]
     phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
-    
+
     @fv("dateOfBirth")
     def validate_age(cls, value: date):
         today = date.today()
@@ -29,28 +29,30 @@ class User(BaseModel):
         if age > 99:
             raise ValueError(f"Старикам здесь не место! ({age} - это многовато)")
         return value
-    
+
     @fv("name", "surname", "patronymic")
     def validate_fio(cls, value: str):
         return value.strip().capitalize() if value else value
-    
-    @fv("phone", mode="before")
-    def validate_phone(cls, value: str):
-        if value:
-            if value.startswith("8"):
-                value = value.replace("8", "+7", 1)
-        return value
-    
+
     @fv("dateOfReg")
     def validate_registration_date(cls, value: datetime):
         return value if value else datetime.now()
-    
+
     @fv("login")
     def validate_login(cls, value: str):
         if value.strip() == "":
             raise ValueError(f"Логин не может быть пустым!")
-        return value.lower()
-    
+        cls.login = value.strip().lower()
+        return value.strip().lower()
+
     @fv("email", mode="after")
     def validate_email(cls, value: EmailStr):
-        return value.lower() if value else value     
+        return value.strip().lower() if value else value
+
+    @fv("phone", mode="before")
+    def validate_phone(cls, value: str):
+        if value:
+            value = value.strip()
+            if value.startswith("8"):
+                value = value.replace("8", "+7", 1)
+        return value
