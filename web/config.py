@@ -8,6 +8,9 @@ class Settings(BaseSettings):
     POSTGRES_PASS: str
     POSTGRES_DB: str
     
+    JWT_SECRET_KEY: str = ""
+    JWT_SECRET_ALG: str = ""
+    
     @property
     def databaseUrl(self):
         user = f"{self.POSTGRES_USER}:{self.POSTGRES_PASS}"

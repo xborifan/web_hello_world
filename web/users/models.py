@@ -16,4 +16,5 @@ class User(Base):
     dateOfReg : Mapped[datetime]  = mapped_column(DateTime(timezone=True), default=func.now(), nullable=False)
     email = Column(String, nullable=True, unique=True)
     phone = Column(String, nullable=True)
+    password : Mapped[str]
     

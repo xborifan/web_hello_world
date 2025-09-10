@@ -1,7 +1,9 @@
 from fastapi.responses import JSONResponse
 from fastapi import status
 from sqlalchemy import select, insert, delete, update
-from sqlalchemy.orm.exc import NoResultFound
+#from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import NoResultFound, MultipleResultsFound
+
 from typing import List
 from web.database import async_session_maker
 
@@ -22,9 +24,10 @@ class BaseDAO:
                 query = select(cls.model).filter_by(id=model_id)
                 result = await session.execute(query)
                 x = result.scalars().one_or_none()
-                if x==None:
+                if x:
+                    return x
+                else:
                     raise NoResultFound()
-                return x
         except:
             return JSONResponse(
                         status_code = status.HTTP_404_NOT_FOUND, 
@@ -73,3 +76,26 @@ class BaseDAO:
             return JSONResponse(
                         status_code = status.HTTP_400_BAD_REQUEST, 
                         content = {"message": f"Не удалось удалить  объект(ы) с id: {model_ids}"})
+
+    @classmethod
+    async def find_by(cls, **filter_by):
+        """Находит в БД объект, соотв. наложенной фильтрации
+        
+        """   
+        async with async_session_maker() as session:
+            #query = select(cls.model).filter_by(**filter_by)
+            query = select(cls.model).filter_by(**filter_by)
+            result = await session.execute(query)
+            return result.scalars().one_or_none()
+        
+        
+    # @classmethod
+    # async def find_by(cls, **filter_by):
+    #     """Находит в БД объект, соотв. наложенной фильтрации
+        
+    #     """   
+    #     async with async_session_maker() as session:
+    #         #query = select(cls.model).filter_by(**filter_by)
+    #         query = select(cls.model).filter_by(**filter_by)
+    #         result = await session.execute(query)
+    #         return result.mappings().one_or_none()        

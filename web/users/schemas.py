@@ -23,6 +23,7 @@ class UserReg(BaseModel):
     surname:     Annotated[Optional[str],      Field(description="Фамилия")]    
     patronymic:  Annotated[Optional[str],                Field(description="Отчество")]
     phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
+    password:    Annotated[str,                          Field(description="Пароль")]
     
     @fv("dateOfBirth")
     def validate_age(cls, value: date):
@@ -62,20 +63,40 @@ class User(BaseModel):
     """Модель [Pydantic] "Пользователь системы"
 
     """
-    id:          Annotated[int,                          Field(description="Идентификатор")]
-    name:        Annotated[Optional[str],                Field(description="Имя")]
-    surname:     Annotated[Optional[str],                Field(description="Фамилия")]
-    login:       Annotated[str,                          Field(description="Логин")]
-    dateOfBirth: Annotated[date,                         Field(description="Дата рождения")]
-    dateOfReg:   Annotated[datetime,                     Field(description="Момент регистрации пользователя")]
-    patronymic:  Annotated[Optional[str],                Field(description="Отчество")]
-    email:       Annotated[EmailStr,                     Field(description="Адрес электронной почты")]
-    phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
+    id:          Annotated[Optional[int],                Field(description="Идентификатор", default=None)]
+    name:        Annotated[Optional[str],                Field(description="Имя", default="UserName")]
+    surname:     Annotated[Optional[str],                Field(description="Фамилия", default="UserSurName" )]
+    login:       Annotated[str,                          Field(description="Логин", default="")]
+    dateOfBirth: Annotated[date,                         Field(description="Дата рождения", default=None)]
+    dateOfReg:   Annotated[datetime,                     Field(description="Момент регистрации пользователя", default=None)]
+    patronymic:  Annotated[Optional[str],                Field(description="Отчество", default="")]
+    email:       Annotated[EmailStr,                     Field(description="Адрес электронной почты", default=None)]
+    phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи", default=None)]
+    #password:    Annotated[Optional[str], Field(description="Пароль", default="")]
 
 
+class UserSearch(BaseModel):
+    """Модель [Pydantic] "Для поиска"
+    
+    """
+    name:        str = ""
+    surname:     str = ""
+    login:       str = ""
+    dateOfBirth: date = None
+    dateOfReg:   datetime = None
+    patronymic:  str = ""
+    email:       str = ""
+    phone:       str = ""
+    password:    str = ""
 
     # @fv("dateOfReg")
     # def validate_registration_date(cls, value: datetime):
     #     return value if value else datetime.now()
 
 
+class UserLogin(BaseModel):
+    """Модель [Pydantic] "Для поиска"
+    
+    """
+    email:        str = ""
+    password:     str = ""
