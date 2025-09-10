@@ -4,7 +4,7 @@ from typing_extensions import Annotated
 
 from auth.scheme import get_bearer_token
 from web.users.dependencies import get_current_user
-from web.users.schemas import UserSchema, UserLoginSchema, UserReg, UserSearchSchema
+from web.users.schemas import UserSchema, UserLoginSchema, UserRegSchema, UserSearchSchema
 from web.users.dao import UserDAO
 from web.exceptions import UserExistException
 from web.auth import create_token, get_pass_hash, auth_user
@@ -35,7 +35,7 @@ async def get_all_users(filter_q: Annotated[UserSearchSchema, Query()], token = 
         return await UserDAO.find_all() 
 
 @router.post("/register", status_code=201)
-async def register_user(user_data: UserReg):
+async def register_user(user_data: UserRegSchema):
     """Создать нового пользователя
     
     """

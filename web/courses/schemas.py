@@ -3,7 +3,7 @@ from typing import Optional, Annotated
 
 
 class CourseRegSchema(BaseModel):
-    """Модель [Pydantic] "Новый пользователь системы"
+    """Модель [Pydantic] "Новый курс"
     
     """
     name:        Annotated[str,           Field(description="Имя")]
@@ -13,7 +13,7 @@ class CourseRegSchema(BaseModel):
 
 
 class CourseSearchSchema(BaseModel):
-    """Модель [Pydantic] "Для поиска"
+    """Модель [Pydantic] "Курс для поиска"
     
     """
     name:        str = ""
@@ -23,7 +23,7 @@ class CourseSearchSchema(BaseModel):
 
 
 class CourseSchema(BaseModel):
-    """Модель [Pydantic] "Пользователь системы"
+    """Модель [Pydantic] "Курс"
 
     """
     id:          Annotated[Optional[int],                Field(description="Идентификатор", default=None)]

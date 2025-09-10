@@ -12,7 +12,7 @@ class RussianPhoneNumber(PhoneNumber):
     default_region_code = "+7"
     
 
-class UserReg(BaseModel):
+class UserRegSchema(BaseModel):
     """Модель [Pydantic] "Новый пользователь системы"
     
     """
@@ -76,7 +76,7 @@ class UserSchema(BaseModel):
 
 
 class UserSearchSchema(BaseModel):
-    """Модель [Pydantic] "Пользователь системы для поиска"
+    """Модель [Pydantic] "Пользователь для поиска"
     
     """
     name:        str = ""
