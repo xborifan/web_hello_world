@@ -5,21 +5,25 @@ from datetime import datetime, date
 
 
 class RussianPhoneNumber(PhoneNumber):
+    """Тип данных для телефонного нормера РФ
+    
+    """    
     supported_regions = ["RU"]
     default_region_code = "+7"
     
-    
-class User(BaseModel):
-    #id: int
-    name:        Annotated[str,                          Field(description="Имя")]
-    surname:     Annotated[str,                          Field(description="Фамилия")]
-    login:       Annotated[str,                          Field(description="Логин")]
-    dateOfBirth: Annotated[date,                         Field(description="Дата рождения")]
-    patronymic:  Annotated[Optional[str],                Field(description="Отчество")]
-    dateOfReg:   Annotated[Optional[datetime],           Field(description="Момент регистрации пользователя")]
-    email:       Annotated[Optional[EmailStr],           Field(description="Адрес электронной почты")]
-    phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
 
+class UserReg(BaseModel):
+    """Модель [Pydantic] "Новый пользователь системы"
+    
+    """
+    email:       Annotated[EmailStr, Field(description="Адрес электронной почты")]
+    login:       Annotated[str,      Field(description="Логин")]
+    dateOfBirth: Annotated[date,     Field(description="Дата рождения")]
+    name:        Annotated[Optional[str],      Field(description="Имя")]
+    surname:     Annotated[Optional[str],      Field(description="Фамилия")]    
+    patronymic:  Annotated[Optional[str],                Field(description="Отчество")]
+    phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
+    
     @fv("dateOfBirth")
     def validate_age(cls, value: date):
         today = date.today()
@@ -29,22 +33,18 @@ class User(BaseModel):
         if age > 99:
             raise ValueError(f"Старикам здесь не место! ({age} - это многовато)")
         return value
-
-    @fv("name", "surname", "patronymic")
-    def validate_fio(cls, value: str):
-        return value.strip().capitalize() if value else value
-
-    @fv("dateOfReg")
-    def validate_registration_date(cls, value: datetime):
-        return value if value else datetime.now()
-
+    
     @fv("login")
     def validate_login(cls, value: str):
         if value.strip() == "":
             raise ValueError(f"Логин не может быть пустым!")
         cls.login = value.strip().lower()
         return value.strip().lower()
-
+    
+    @fv("name", "surname", "patronymic")
+    def validate_fio(cls, value: str):
+        return value.strip().capitalize() if value else value
+    
     @fv("email", mode="after")
     def validate_email(cls, value: EmailStr):
         return value.strip().lower() if value else value
@@ -56,3 +56,26 @@ class User(BaseModel):
             if value.startswith("8"):
                 value = value.replace("8", "+7", 1)
         return value
+    
+    
+class User(BaseModel):
+    """Модель [Pydantic] "Пользователь системы"
+
+    """
+    id:          Annotated[int,                          Field(description="Идентификатор")]
+    name:        Annotated[Optional[str],                Field(description="Имя")]
+    surname:     Annotated[Optional[str],                Field(description="Фамилия")]
+    login:       Annotated[str,                          Field(description="Логин")]
+    dateOfBirth: Annotated[date,                         Field(description="Дата рождения")]
+    dateOfReg:   Annotated[datetime,                     Field(description="Момент регистрации пользователя")]
+    patronymic:  Annotated[Optional[str],                Field(description="Отчество")]
+    email:       Annotated[EmailStr,                     Field(description="Адрес электронной почты")]
+    phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
+
+
+
+    # @fv("dateOfReg")
+    # def validate_registration_date(cls, value: datetime):
+    #     return value if value else datetime.now()
+
+
