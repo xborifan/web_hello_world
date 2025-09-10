@@ -10,7 +10,8 @@ from alembic import context
 
 from web.database import Base
 from web.config import settings
-from web.users.models import User
+from web.users.models import UserModel
+from web.courses.models import CourseModel
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 

@@ -1,6 +1,6 @@
 from web.dao.base import BaseDAO
-from web.users.models import User
+from web.users.models import UserModel
 
 
 class UserDAO(BaseDAO):
-    model = User
+    model = UserModel

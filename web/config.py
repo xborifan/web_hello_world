@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     
     JWT_SECRET_KEY: str = ""
     JWT_SECRET_ALG: str = ""
+    TOKEN_BEARER: str = ""
     
     @property
     def databaseUrl(self):

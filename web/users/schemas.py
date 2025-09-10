@@ -59,7 +59,7 @@ class UserReg(BaseModel):
         return value
     
     
-class User(BaseModel):
+class UserSchema(BaseModel):
     """Модель [Pydantic] "Пользователь системы"
 
     """

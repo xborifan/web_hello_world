@@ -19,8 +19,7 @@ def verify_pass(password: str, hash: str)-> bool:
 
 async def auth_user(email: EmailStr, password: str):
     user = await UserDAO.find_by(email=email)
-    h = user.password
-    if not (user and verify_pass(password, h)):
+    if not (user and verify_pass(password, user.password)):
         raise IncorrectEmailOrPassException
     return user
 

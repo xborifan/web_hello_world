@@ -3,8 +3,9 @@ from fastapi.responses import JSONResponse
 from typing import List, Sequence, Any 
 from typing_extensions import Annotated
 
+from auth.scheme import get_bearer_token
 from web.users.dependencies import get_current_user, get_token
-from web.users.schemas import User, UserLogin, UserReg, UserSearch
+from web.users.schemas import UserSchema, UserLogin, UserReg, UserSearch
 from web.users.dao import UserDAO
 from web.exceptions import UserExistException
 from web.auth import create_token, get_pass_hash, auth_user
@@ -22,21 +23,9 @@ async def del_user(ids: Annotated[List[int], Query(description="Идентифи
     """
     return await UserDAO.del_by_id(ids)
 
-# @router.get("")
-# async def get_all_users(name: str="") -> Sequence[User] | User:
-#     """Получить информацию обо всех пользователях
-    
-#     """
-#     if name:
-#         return await UserDAO.find_all(name=name)
-#     else:
-#         return await UserDAO.find_all() 
-
-
-
 @router.get("")
-#async def get_all_users(filter_q: Annotated[UserSearch, Query()]):
-async def get_all_users(filter_q: Annotated[UserSearch, Query()]) -> Sequence[User] | User:
+#async def get_all_users(filter_q: Annotated[UserSearch, Query()]) -> Sequence[User] | User:
+async def get_all_users(filter_q: Annotated[UserSearch, Query()], token = Depends(get_bearer_token)) -> Sequence[UserSchema] | UserSchema:
     """Получить информацию обо всех пользователях
     
     """
@@ -69,11 +58,11 @@ async def login_user(response: Response, user_data: UserLogin):
     return user
 
 @router.get("/me", status_code=200)
-async def get_me(current_user: User = Depends(get_current_user)) -> User:
+async def get_me(current_user: UserSchema = Depends(get_current_user)) -> UserSchema:
     return current_user
     
 @router.get("/{id}")
-async def get_user_info(id: int) -> User:
+async def get_user_info(id: int) -> UserSchema:
     """Получить информацию о пользователе
     
     """
