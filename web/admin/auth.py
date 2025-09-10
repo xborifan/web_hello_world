@@ -15,14 +15,11 @@ class AdminAuth(AuthenticationBackend):
         if user:
             token = create_token({"sub": str(user.id)})
             request.session.update({"token": token})
-            
         return True
-        
         
     async def logout(self, request: Request):
         request.session.clear()
         return True
-        
     
     async def authenticate(self, request: Request):
         token = request.session.get("token")
@@ -33,6 +30,7 @@ class AdminAuth(AuthenticationBackend):
         user = await get_current_user(token)
         if not user:
             return RedirectResponse(request.url_for("admin:login"), status_code=302)
+        
         return True
     
 authentication_backend = AdminAuth(secret_key=settings.TOKEN_BEARER)

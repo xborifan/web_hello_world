@@ -16,11 +16,11 @@ class UserReg(BaseModel):
     """Модель [Pydantic] "Новый пользователь системы"
     
     """
-    email:       Annotated[EmailStr, Field(description="Адрес электронной почты")]
-    login:       Annotated[str,      Field(description="Логин")]
-    dateOfBirth: Annotated[date,     Field(description="Дата рождения")]
-    name:        Annotated[Optional[str],      Field(description="Имя")]
-    surname:     Annotated[Optional[str],      Field(description="Фамилия")]    
+    email:       Annotated[EmailStr,                     Field(description="Адрес электронной почты")]
+    login:       Annotated[str,                          Field(description="Логин")]
+    dateOfBirth: Annotated[date,                         Field(description="Дата рождения")]
+    name:        Annotated[Optional[str],                Field(description="Имя")]
+    surname:     Annotated[Optional[str],                Field(description="Фамилия")]    
     patronymic:  Annotated[Optional[str],                Field(description="Отчество")]
     phone:       Annotated[Optional[RussianPhoneNumber], Field(description="Номер телефона для связи")]
     password:    Annotated[str,                          Field(description="Пароль")]
@@ -75,8 +75,8 @@ class UserSchema(BaseModel):
     #password:    Annotated[Optional[str], Field(description="Пароль", default="")]
 
 
-class UserSearch(BaseModel):
-    """Модель [Pydantic] "Для поиска"
+class UserSearchSchema(BaseModel):
+    """Модель [Pydantic] "Пользователь системы для поиска"
     
     """
     name:        str = ""
@@ -89,13 +89,9 @@ class UserSearch(BaseModel):
     phone:       str = ""
     password:    str = ""
 
-    # @fv("dateOfReg")
-    # def validate_registration_date(cls, value: datetime):
-    #     return value if value else datetime.now()
 
-
-class UserLogin(BaseModel):
-    """Модель [Pydantic] "Для поиска"
+class UserLoginSchema(BaseModel):
+    """Модель [Pydantic] "Пользователь для логина"
     
     """
     email:        str = ""

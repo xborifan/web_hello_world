@@ -31,5 +31,3 @@ def read_root():
 admin = Admin(app=app, engine=engine, authentication_backend=authentication_backend)
 admin.add_view(UsersAdmin)
 admin.add_view(CoursesAdmin)
-
-

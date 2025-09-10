@@ -3,4 +3,7 @@ from web.courses.models import CourseModel
 
 
 class CourseDAO(BaseDAO):
+    """Класс DAO для класса 'Курс'
+    
+    """
     model = CourseModel

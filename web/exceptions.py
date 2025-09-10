@@ -18,7 +18,7 @@ class UserExistException(BaseException):
     
     """    
     status_code = status.HTTP_409_CONFLICT
-    detail = "Пользователь уже зарегистрирован"
+    detail = "Пользователь с таким email или логином уже зарегистрирован"
     
 class IncorrectEmailOrPassException(BaseException):
     """Пользователь не прошел auth

@@ -2,6 +2,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    """Класс глобальных настроек приложения
+    
+    """    
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_USER: str
@@ -14,15 +17,15 @@ class Settings(BaseSettings):
     
     @property
     def databaseUrl(self):
+        """Строка подключения к БД
+        
+        """    
         user = f"{self.POSTGRES_USER}:{self.POSTGRES_PASS}"
         db = f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         return f"postgresql+asyncpg://{user}@{db}"
-    
     
     class Config:
         env_file = ".env"
     
     
 settings = Settings()    
-
-print(settings.databaseUrl)

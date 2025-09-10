@@ -1,15 +1,11 @@
-from fastapi import APIRouter, Depends, Query, status, Response
-from fastapi.responses import JSONResponse
-from typing import List, Sequence, Any 
+from fastapi import APIRouter, Depends, Query
+from typing import List, Sequence 
 from typing_extensions import Annotated
 
 from auth.scheme import get_bearer_token
-from web.users.dependencies import get_current_user, get_token
 
 from web.courses.schemas import CourseRegSchema, CourseSearchSchema, CourseSchema
 from web.courses.dao import CourseDAO
-from web.exceptions import UserExistException
-from web.auth import create_token, get_pass_hash, auth_user
 
 
 router = APIRouter(
@@ -32,14 +28,14 @@ async def get_all_courses(filter_q: Annotated[CourseSearchSchema, Query()], toke
     
 @router.get("/{id}")
 async def get_course_info(id: int) -> CourseSchema:
-    """Получить информацию о пользователе
+    """Получить информацию о курсе
     
     """
     return await CourseDAO.find_by_id(id)    
 
 @router.post("/add", status_code=201)
 async def add_course(course_data: CourseRegSchema):
-    """Создать нового пользователя
+    """Добавить новый курс
     
     """
     await CourseDAO.add(**course_data.model_dump())

@@ -5,6 +5,9 @@ from datetime import datetime
 
 
 class UserModel(Base):
+    """Модель [sqlalchemy] 'Пользователь'
+    
+    """
     __tablename__ = "user"
     
     id = Column(Integer, primary_key=True)
