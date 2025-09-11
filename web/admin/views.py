@@ -30,8 +30,9 @@ class UsersAdmin(ModelView, model=UserModel):
     
     
 class CoursesAdmin(ModelView, model=CourseModel):
-    can_create = False
+    can_create = True
     can_delete = True
+    can_edit = True
     name = "Курс"
     name_plural = "Курсы"
     
