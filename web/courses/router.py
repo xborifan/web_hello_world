@@ -19,9 +19,8 @@ async def get_all_courses(filter_q: Annotated[CourseSearchSchema, Query()], toke
     """Получить информацию обо всех курсах
     
     """
-    print(filter_q)
     filtered = filter_q.model_dump(exclude_unset=True, exclude_defaults=True)
-    if filter_q:
+    if filtered:
         return await CourseDAO.find_all(**filtered)
     else:
         return await CourseDAO.find_all() 

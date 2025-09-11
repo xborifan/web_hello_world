@@ -1,6 +1,6 @@
 from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
-from starlette.responses import Response, RedirectResponse
+from starlette.responses import RedirectResponse
 
 from web.auth import auth_user, create_token
 from web.config import settings

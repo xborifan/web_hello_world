@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Query, Response
-from typing import List, Sequence, Any 
+from typing import List, Sequence 
 from typing_extensions import Annotated
 
 from auth.scheme import get_bearer_token

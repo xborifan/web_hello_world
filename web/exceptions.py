@@ -19,6 +19,7 @@ class UserExistException(BaseException):
     """    
     status_code = status.HTTP_409_CONFLICT
     detail = "Пользователь с таким email или логином уже зарегистрирован"
+
     
 class IncorrectEmailOrPassException(BaseException):
     """Пользователь не прошел auth
@@ -26,6 +27,7 @@ class IncorrectEmailOrPassException(BaseException):
     """    
     status_code = status.HTTP_401_UNAUTHORIZED
     detail = "Некорректный email или пароль"
+
     
 class MissingTokenException(BaseException):
     """Пользователь не прошел auth
@@ -33,6 +35,7 @@ class MissingTokenException(BaseException):
     """    
     status_code = status.HTTP_401_UNAUTHORIZED
     detail = "Токен отсутствует"
+
     
 class IncorrectTokenException(BaseException):
     """Плохой токен
