@@ -1,7 +1,7 @@
 from sqladmin import ModelView
 
 from web.users.models import UserModel
-from web.courses.models import CourseModel
+from web.courses.models import CourseModel, CourseTeacherModel
 
 
 class UsersAdmin(ModelView, model=UserModel):
@@ -49,3 +49,11 @@ class CoursesAdmin(ModelView, model=CourseModel):
         CourseModel.description: "Описание курса",
         CourseModel.duration: "Продолжительность (час.)"
         }
+    
+class CourseTeacherAdmin(ModelView, model=CourseTeacherModel):
+    can_create = True
+    can_delete = True
+    can_edit = True
+    name = "Преподаватель курса"
+    name_plural = "Преподаватели курсов"    
+    

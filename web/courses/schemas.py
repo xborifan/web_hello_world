@@ -6,10 +6,10 @@ class CourseRegSchema(BaseModel):
     """Модель [Pydantic] "Новый курс"
     
     """
-    name:        Annotated[str,           Field(description="Имя")]
-    description: Annotated[Optional[str], Field(description="Фамилия")]    
-    duration:    Annotated[Optional[int], Field(description="Пароль")]
-    teacher_id:  Annotated[Optional[int], Field(description="Пароль")]
+    name:        Annotated[str,           Field(description="Название")]
+    description: Annotated[Optional[str], Field(description="Описание")]    
+    duration:    Annotated[Optional[int], Field(description="Продолжительность")]
+    #teacher_id:  Annotated[Optional[int], Field(description="Преподаватель")]
 
 
 class CourseSearchSchema(BaseModel):
@@ -27,7 +27,8 @@ class CourseSchema(BaseModel):
 
     """
     id:          Annotated[Optional[int],                Field(description="Идентификатор", default=None)]
-    name:        Annotated[Optional[str],                Field(description="Имя", default="UserName")]
-    description: Annotated[Optional[str],                Field(description="Фамилия", default="UserSurName" )]
-    duration:    Annotated[Optional[int],                          Field(description="Логин", default="")]
-    teacher_id:  Annotated[Optional[int],                          Field(description="Логин", default="")]
+    name:        Annotated[Optional[str],                Field(description="Название", default="")]
+    description: Annotated[Optional[str],                Field(description="Описание", default="" )]
+    duration:    Annotated[Optional[int],                Field(description="Продолжительность", default="")]
+    #teacher_id:  Annotated[Optional[int],                Field(description="Преподаватель", default="")]
+

@@ -43,3 +43,17 @@ class IncorrectTokenException(BaseException):
     """    
     status_code = status.HTTP_401_UNAUTHORIZED
     detail = "Плохой токен"
+    
+class CourseNotFoundedException(BaseException):
+    """Нет такого курса
+    
+    """    
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Нет такого курса"    
+    
+class UserNotFoundedException(BaseException):
+    """Нет такого пользователя
+    
+    """    
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Нет такого пользователя"    

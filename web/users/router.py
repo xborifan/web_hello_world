@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Query, Response
 from typing import List, Sequence 
 from typing_extensions import Annotated
+from time import sleep
 
 from auth.scheme import get_bearer_token
 from web.users.dependencies import get_current_user
@@ -8,6 +9,7 @@ from web.users.schemas import UserSchema, UserLoginSchema, UserRegSchema, UserSe
 from web.users.dao import UserDAO
 from web.exceptions import UserExistException
 from web.auth import create_token, get_pass_hash, auth_user
+from fastapi_cache.decorator import cache
 
 
 router = APIRouter(
@@ -23,6 +25,7 @@ async def del_user(ids: Annotated[List[int], Query(description="Идентифи
     return await UserDAO.del_by_id(ids)
 
 @router.get("")
+@cache(expire=60)
 #async def get_all_users(filter_q: Annotated[UserSearch, Query()]) -> Sequence[User] | User:
 async def get_all_users(filter_q: Annotated[UserSearchSchema, Query()], token = Depends(get_bearer_token)) -> Sequence[UserSchema] | UserSchema:
     """Получить информацию обо всех пользователях
